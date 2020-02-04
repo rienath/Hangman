@@ -1,3 +1,3 @@
-import ConsoleHangman as ConsoleHangman
+from files import ConsoleHangman as ConsoleHangman
 ch = ConsoleHangman.ConsoleHangman()
 
