@@ -136,6 +136,12 @@ class ConsoleHangman:
     def start(self):
         self.index = 0
         self.word = RandomWords().get_random_word()
+        self.cls()
+        print('\n'.join([
+               "  ^   ^   ^   ^   ^   ^   ^       ^   ^   ^   ^   ^   ^   ^  ",
+               " /C\ /O\ /N\ /S\ /O\ /L\ /E\     /H\ /A\ /N\ /G\ /M\ /A\ /N\ ",
+               "<___X___X___X___X___X___X___>   <___X___X___X___X___X___X___>"
+        ]))
 
     def wrongGuess(self):
         if self.index < 10:
@@ -148,11 +154,15 @@ class ConsoleHangman:
         print("Congratulations, you guessed %s"%w)
 
     # Clean console
-    def cls():
+    def cls(self):
         os.system('cls' if os.name=='nt' else 'clear')
 
     def get_drawing(self):
         return '\n'.join(self.steps[index])
+
+    def game(self):
+        self.start()
+
 
     def test(self):
         return word
