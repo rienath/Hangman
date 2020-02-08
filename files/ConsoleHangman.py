@@ -1,4 +1,7 @@
 # Module for drawing Hangman drawings in the console
+import os
+from random_word import RandomWords
+
 class ConsoleHangman:
 
     # drawing for each step
@@ -128,9 +131,11 @@ class ConsoleHangman:
 
     def __init__(self):
         self.index = 0
+        self.word = ''
 
     def start(self):
         self.index = 0
+        self.word = RandomWords().get_random_word()
 
     def wrongGuess(self):
         if self.index < 10:
@@ -142,5 +147,12 @@ class ConsoleHangman:
     def winner(self, w):
         print("Congratulations, you guessed %s"%w)
 
+    # Clean console
+    def cls():
+        os.system('cls' if os.name=='nt' else 'clear')
+
     def get_drawing(self):
         return '\n'.join(self.steps[index])
+
+    def test(self):
+        return word
