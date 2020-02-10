@@ -132,7 +132,7 @@ class ConsoleHangman:
     def __init__(self):
         # Wrong guesses number
         self.index = 0
-        # Wrong guesses letter
+        # Guessed letters
         self.guessed = []
         # Word to be guessed
         self.word = RandomWords().get_random_word().upper()
@@ -147,21 +147,19 @@ class ConsoleHangman:
                "<___X___X___X___X___X___X___>   <___X___X___X___X___X___X___>"
         ]))
 
-    
-
     def wrong_guess(self, letter):
-        self.guessed.append(letter.upper())
         if self.index < 10:
             self.index += 1
-        else:
-            self.game_over()
 
     def game_over(self):
+        print('')
         print("Game Over")
+        print('')
+        print("The word was %s"%self.word)
         
     def winner(self, w):
         print("Congratulations, you guessed %s"%w)
-        return -1
+        return False
 
     # Clean console
     def cls(self):
@@ -169,21 +167,61 @@ class ConsoleHangman:
 
     # Returns Hangman drawing
     def hangman_drawing(self):
-        return '\n'.join(self.steps[index])
+        print('\n'.join(self.steps[self.index]))
 
-    # Returns drawing of guessed letters
+    # Prints drawing of guessed letters
     def letters_drawing(self):
         drawing = ''
         for i in self.word:
             drawing += i if i in self.guessed else '_'
             drawing += ' '
-        print(drawing)
-            
+        print('Word: ' + drawing)
 
+    # Prints all guessed letters
+    def all_letters(self):
+        drawing = 'Guessed letters: '
+        for i in self.guessed:
+            drawing += i
+            drawing += ' '
+        print(drawing)
+
+    # Ask user to pick a letter.
+    # Check if it is a single character letter.
+    def pick_a_letter(self):
+        while True:
+            userInput = input('Pick a letter --> ')
+            if len(userInput) == 1:
+                if userInput.isalpha():
+                    if userInput.upper() in self.guessed:
+                        print('You already guessed that letter')
+                    else:
+                        break
+                print('Letters only')
+            else:
+                print('Single characters only')
+        self.guessed.append(userInput.upper())
 
     def game(self):
-        self.start()
-
+        while True:
+            self.start()
+            print()
+            self.letters_drawing()
+            print('')
+            self.all_letters()
+            print('')
+            self.hangman_drawing()
+            print('')
+            self.pick_a_letter()
+            if self.guessed[-1] not in self.word:
+                self.wrong_guess(self.guessed[-1])
+            elif all(elem in self.guessed for elem in self.word):
+                self.winner(self.word)
+                break
+            
+            if self.index > 9:
+                self.game_over()
+                break
+            self.cls()
 
     def test(self):
         self.letters_drawing()
