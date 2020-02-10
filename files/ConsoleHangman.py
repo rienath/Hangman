@@ -1,10 +1,10 @@
-# Module for drawing Hangman drawings in the console
+# Module for playing hangman in the console
 import os
 from random_word import RandomWords
 
 class ConsoleHangman:
 
-    # drawing for each step
+    # Drawing for each step
     step_zero = [
         "              ",
         "              ",
@@ -126,7 +126,7 @@ class ConsoleHangman:
         "___:___       "
     ]
 
-    # all of the steps in order
+    # All of the steps in order
     steps = [step_zero, step_one, step_two, step_three, step_four, step_five, step_six, step_seven, step_eight, step_nine, step_ten]
 
     def __init__(self):
@@ -151,15 +151,17 @@ class ConsoleHangman:
         if self.index < 10:
             self.index += 1
 
+    # If you lose
     def game_over(self):
         print('')
         print("Game Over")
         print('')
         print("The word was %s"%self.word)
-        
+    
+    # If you win
     def winner(self, w):
+        print('')
         print("Congratulations, you guessed %s"%w)
-        return False
 
     # Clean console
     def cls(self):
@@ -201,6 +203,7 @@ class ConsoleHangman:
                 print('Single characters only')
         self.guessed.append(userInput.upper())
 
+    # The game itself, which utilises all the methods above
     def game(self):
         while True:
             self.start()
@@ -212,16 +215,15 @@ class ConsoleHangman:
             self.hangman_drawing()
             print('')
             self.pick_a_letter()
+            # Wrong guess
             if self.guessed[-1] not in self.word:
                 self.wrong_guess(self.guessed[-1])
+            # All the letters guessed
             elif all(elem in self.guessed for elem in self.word):
                 self.winner(self.word)
                 break
-            
+            # Out of tries
             if self.index > 9:
                 self.game_over()
                 break
             self.cls()
-
-    def test(self):
-        self.letters_drawing()
