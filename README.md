@@ -1,5 +1,5 @@
 # Hangman
-## Requirments
+## Requirements
  - [Python 3](https://www.python.org/downloads/)
  - random_word library (pip3 install random_word)
  ## Objective
